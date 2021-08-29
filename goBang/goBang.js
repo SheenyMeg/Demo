@@ -8,8 +8,6 @@ var lineX = canvas.width;
 var lineY = canvas.height;
 var ctx = canvas.getContext("2d");
 
-var isRedo = false; // 是否已悔棋
-var isUndo = false; // 是否可撤销悔棋
 var lineCount = 20 // 线条数
 var chessCount = 0; // 棋子数量初始为 0
 var chessR = Math.floor((lineX/lineCount)/2.5); // 棋子半径
@@ -91,6 +89,8 @@ function coordinate(event) {
     if (Xe != -1 && Ye != -1 && chessArr[x][y] == 0) {
         var drawColor = ((chessCount+1)%2 == 0) ? 2 : 1;
         drawChess(X, Y, x, y, drawColor);
+        // 悔棋后，棋子落在新坐标上，应清空悔棋时的旧坐标信息，避免旧坐标可撤销悔棋
+        clearPopXY();
     } 
 }
 
@@ -134,6 +134,7 @@ function canvasChess(X, Y, color) {
 
 // 绘制棋子
 function drawChess(X, Y, x, y, drawColor) {
+    clearPopXY();
     // 在矩阵中用 1 或 2 标记绘制的黑白棋
     chessArr[x][y] = drawColor;
 
@@ -150,9 +151,6 @@ function drawChess(X, Y, x, y, drawColor) {
     playColor.push(drawColor);
     play_x.push(x);
     play_y.push(y);
-
-    // 悔棋后，棋子落在新坐标上，应清空悔棋时的旧坐标信息，避免旧坐标可撤销悔棋
-    clearPopXY();
 }
 
 // 清除棋子
@@ -257,7 +255,8 @@ function redo() {
 
 // 撤销悔棋
 function undo() {
-    if (popX.length > 0) {
+    if (popX.length > 0 ) {
+        
         // 撤销悔棋的坐标值, 如(20, 360)
         var undoX = popX[popX.length-1];
         var undoY = popY[popY.length-1];
