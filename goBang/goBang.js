@@ -159,13 +159,13 @@ function drawChess(X, Y, x, y, drawColor) {
 function clearChess() {
     if (version === "dom") {
         // 通过找到需移除div 的 id，实现悔棋
-        var id = "bw" + (chessCount - 1).toString();
+        var id = "bw" + (chessCount-1).toString();
         var del_id = document.getElementById(id);
         dom.removeChild(del_id);
     } else if (version === "canvas") {
         // 清除 canvas 画布上的棋子
-        var clearX = playX[playX.length - 1];
-        var clearY = playY[playY.length - 1];
+        var clearX = playX[playX.length-1];
+        var clearY = playY[playY.length-1];
         ctx.save(); 
         ctx.beginPath();
         ctx.arc(clearX, clearY, chessR+1, 0, 2 * Math.PI); 
@@ -215,11 +215,11 @@ function restoreChessBoard() {
 
 // 清空悔棋坐标
 function clearPopXY() {
-    popX.splice(popX.length - 1, 1);
-    popY.splice(popY.length - 1, 1);
-    pop_x.splice(pop_x.length - 1, 1);
-    pop_y.splice(pop_y.length - 1, 1);
-    popColor.splice(popColor.length - 1, 1);
+    popX.splice(popX.length-1, 1);
+    popY.splice(popY.length-1, 1);
+    pop_x.splice(pop_x.length-1, 1);
+    pop_y.splice(pop_y.length-1, 1);
+    popColor.splice(popColor.length-1, 1);
 }
 
 // 悔棋
@@ -229,8 +229,8 @@ function redo() {
         clearChess();
 
         // 需悔棋的坐标点（x，y）
-        var redoX = play_x[play_x.length - 1];
-        var redoY = play_y[play_y.length - 1];
+        var redoX = play_x[play_x.length-1];
+        var redoY = play_y[play_y.length-1];
 
         // 将悔棋点改为0，后续点击该位置可再次落子
         chessArr[redoX][redoY] = 0;
@@ -259,14 +259,13 @@ function redo() {
 function undo() {
     if (popX.length > 0) {
         // 撤销悔棋的坐标值, 如(20, 360)
-        var undoX = popX[popX.length - 1];
-        var undoY = popY[popY.length - 1];
+        var undoX = popX[popX.length-1];
+        var undoY = popY[popY.length-1];
         // 撤销悔棋的坐标点, 如(1, 18)
-        var domX = pop_x[pop_x.length - 1];
-        var domY = pop_y[pop_y.length - 1]
-        var undoColor = popColor[popColor.length - 1]; // 撤销悔棋的棋子颜色
+        var domX = pop_x[pop_x.length-1];
+        var domY = pop_y[pop_y.length-1]
+        var undoColor = popColor[popColor.length-1]; // 撤销悔棋的棋子颜色
         drawChess(undoX, undoY, domX, domY, undoColor); // 重绘棋子，完成撤销
-        clearPopXY(); // 清除悔棋时的坐标信息
     } else {
         prompt("😬 无棋可撤");
     }
