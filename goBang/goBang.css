@@ -1,0 +1,57 @@
+/* 公共 */
+#area {
+    width: 400px;
+    margin: 0 auto;
+}
+
+#title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    letter-spacing: 1px;
+    color: #3d5968;
+}
+
+#buttom {
+    width: 400px;
+    height: 50px;
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#buttom>div {
+    width:80px;
+    height: 35px;
+    text-align: center;
+    line-height: 35px;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #3d5968;
+    border-radius: 5px;
+    background-color: #b0eacd;
+    cursor: pointer;
+}
+
+/* Canvas */
+#canvasBoard {
+    display: none;
+    cursor: pointer;
+}
+
+/* DOM */
+#domBoard {
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(to top, transparent 18px, #84a9ac 18px),
+                linear-gradient(to left, transparent 18px, #84a9ac 18px);
+    background-size: 20px 20px;
+    border-right: 1px solid #84a9ac;
+    border-bottom: 1px solid #84a9ac;  
+    background-color: #cae8d5;
+    position: relative;
+    cursor: pointer;
+} 
+

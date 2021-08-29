@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoBang</title>
+    <link rel="stylesheet" type="text/css" href="goBang.css">
+</head>
+<body>
+    <div id="area">
+        <div id="title">
+            <h5 id="version">GoBang DOM</h5>
+            <h5 id="tips">🍀🍀🍀</h5>
+        </div>
+        <!-- 棋盘区 -->
+        <div id="domBoard"></div>
+        <canvas id="canvasBoard" width="400" height="400"></canvas>
+        <!-- 按钮区 -->
+        <div id="buttom">
+            <div id="redo" onclick="redo()">悔棋</div>
+            <div id="undo" onclick="undo()">撤销悔棋</div>
+            <div id="restart" onclick="restart()">重新开始</div>
+            <div id="switch" onclick="switchVersion()">Canvas</div>
+        </div>
+    </div> 
+
+    <script type="text/javascript" src="goBang.js"></script>
+</body>
+</html>
