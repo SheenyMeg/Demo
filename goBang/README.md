@@ -4,4 +4,4 @@
 - 可重新开始，悔棋或撤销悔棋
 - 可切换为 DOM 或 Canvas
 
-[预览 GoBang](https://sheenymeg.github.io/Demo/goBang)
+[预览 GoBang](https://sheenymeg.github.io/Demo/goBang/goBang)
