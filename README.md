@@ -1,2 +1,2 @@
 # Demo
-[GoBang](https://sheenymeg.github.io/Demo/goBang/goBang)
+[GoBang](https://sheenymeg.github.io/Demo/GoBang/goBang)
