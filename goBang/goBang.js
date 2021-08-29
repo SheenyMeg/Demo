@@ -266,7 +266,7 @@ function undo() {
         var domY = pop_y[pop_y.length - 1]
         var undoColor = popColor[popColor.length - 1]; // 撤销悔棋的棋子颜色
         drawChess(undoX, undoY, domX, domY, undoColor); // 重绘棋子，完成撤销
-        // clearPopXY(); // 清除悔棋时的坐标信息
+        clearPopXY(); // 清除悔棋时的坐标信息
     } else {
         prompt("😬 无棋可撤");
     }
