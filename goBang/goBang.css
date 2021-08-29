@@ -1,7 +1,9 @@
 /* 公共 */
-#area {
-    width: 400px;
-    margin: 0 auto;
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #title {
@@ -22,7 +24,7 @@
 }
 
 #buttom>div {
-    width:80px;
+    width: 80px;
     height: 35px;
     text-align: center;
     line-height: 35px;
@@ -39,6 +41,7 @@
 #canvasBoard {
     display: none;
     cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 /* DOM */
@@ -53,5 +56,6 @@
     background-color: #cae8d5;
     position: relative;
     cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 } 
 

@@ -11,7 +11,6 @@ var ctx = canvas.getContext("2d");
 var isRedo = false; // 是否已悔棋
 var isUndo = false; // 是否可撤销悔棋
 var lineCount = 20 // 线条数
-var oddEven = 1; // 初始为黑棋, 1 黑 2 白
 var chessCount = 0; // 棋子数量初始为 0
 var chessR = Math.floor((lineX/lineCount)/2.5); // 棋子半径
 
@@ -20,7 +19,7 @@ function prompt(tipsText) {
     tips.innerHTML = tipsText;
     setTimeout(() => {
         tips.innerHTML = "🤔🤔🤔"
-    }, 5000)
+    }, 5000);
 }
 
 // 绘制 Canvas 棋盘
@@ -32,11 +31,11 @@ function drawCanvasBoard() {
     // 绘制棋盘线
     for (i=0; i<lineCount+1; i++) {
         // 绘制横线
-        ctx.moveTo((lineX/lineCount)*i, 0)
+        ctx.moveTo((lineX/lineCount)*i, 0);
         ctx.lineTo((lineX/lineCount)*i, lineY);
         ctx.stroke();
         // 绘制竖线
-        ctx.moveTo(0, (lineY/lineCount)*i)
+        ctx.moveTo(0, (lineY/lineCount)*i);
         ctx.lineTo(lineX, (lineY/lineCount)*i);
         ctx.stroke();
     };
@@ -58,7 +57,7 @@ function initChessArr() {
         }
     }
 }
-initChessArr()
+initChessArr();
 
 // 记录黑棋，白棋落子的坐标
 var playX = []; // 落棋后, 棋子的 X 坐标值, 如 X=140
@@ -90,11 +89,8 @@ function coordinate(event) {
     var Ye = xyRange.indexOf(Y);
    
     if (Xe != -1 && Ye != -1 && chessArr[x][y] == 0) {
-        var drawColor = (oddEven%2 == 0) ? 2 : 1;
+        var drawColor = ((chessCount+1)%2 == 0) ? 2 : 1;
         drawChess(X, Y, x, y, drawColor);
-
-        // 悔棋后，棋子落在新坐标上，应清空悔棋时的旧坐标信息，避免旧坐标可撤销悔棋
-        clearPopXY()
     } 
 }
 
@@ -115,7 +111,6 @@ function domChess(X, Y, color) {
     chess.style.top = Y - (14/2) + "px";
     chess.style.position = "absolute";
     dom.appendChild(chess);
-    oddEven++;
     chessCount++;
 }
 
@@ -134,7 +129,6 @@ function canvasChess(X, Y, color) {
         gradient.addColorStop(1, "#f9fcfb");
     }  
     ctx.fill();
-    oddEven++;
     chessCount++;
 }
 
@@ -148,7 +142,7 @@ function drawChess(X, Y, x, y, drawColor) {
     } else if (version === "canvas") {
         canvasChess(X, Y, drawColor);
     }
-    
+
     isWin(x, y, drawColor);
 
     playX.push(X);
@@ -156,6 +150,9 @@ function drawChess(X, Y, x, y, drawColor) {
     playColor.push(drawColor);
     play_x.push(x);
     play_y.push(y);
+
+    // 悔棋后，棋子落在新坐标上，应清空悔棋时的旧坐标信息，避免旧坐标可撤销悔棋
+    clearPopXY();
 }
 
 // 清除棋子
@@ -163,7 +160,7 @@ function clearChess() {
     if (version === "dom") {
         // 通过找到需移除div 的 id，实现悔棋
         var id = "bw" + (chessCount - 1).toString();
-        var del_id = document.getElementById(id)
+        var del_id = document.getElementById(id);
         dom.removeChild(del_id);
     } else if (version === "canvas") {
         // 清除 canvas 画布上的棋子
@@ -177,7 +174,6 @@ function clearChess() {
         drawCanvasBoard();
         ctx.restore();
     }
-    oddEven--;
     chessCount--;
 }
 
@@ -201,7 +197,7 @@ function clearDomNodes() {
 // 复原棋局
 function restoreChessBoard() {
     // DOM <--> Canvas, 清除 DOM 子节点/画布
-    // 不清空 playX/Y 等数组, 用数组中记录的坐标信息来复原棋局
+    // 不清空 playX/Y 等数组, 用数组中记录的坐标信息来复原棋局  
     for (i=0; i<playX.length; i++) {
         for (j=i; j<playY.length; j++) {
             for (k=j; k<playColor.length; k++) {
@@ -209,12 +205,12 @@ function restoreChessBoard() {
                     canvasChess(playX[i], playY[j], playColor[k]);
                 } else if (version === "dom") {
                     domChess(playX[i], playY[j], playColor[k]);
-                }  
+                }   
                 break;
             }
             break;
         }
-    }   
+    }  
 }
 
 // 清空悔棋坐标
@@ -230,7 +226,7 @@ function clearPopXY() {
 function redo() {
     if (chessCount > 0) {
         // 调用清除棋子的函数
-        clearChess()
+        clearChess();
 
         // 需悔棋的坐标点（x，y）
         var redoX = play_x[play_x.length - 1];
@@ -255,7 +251,7 @@ function redo() {
         pop_x.push(pop_x1);
         pop_y.push(pop_y1);
     } else {
-        prompt("😬 无棋可悔")
+        prompt("😬 无棋可悔");
     }
 }
 
@@ -270,9 +266,9 @@ function undo() {
         var domY = pop_y[pop_y.length - 1]
         var undoColor = popColor[popColor.length - 1]; // 撤销悔棋的棋子颜色
         drawChess(undoX, undoY, domX, domY, undoColor); // 重绘棋子，完成撤销
-        clearPopXY(); // 清除悔棋时的坐标信息
+        // clearPopXY(); // 清除悔棋时的坐标信息
     } else {
-        prompt("😬 无棋可撤")
+        prompt("😬 无棋可撤");
     }
 }
 
@@ -297,11 +293,10 @@ function restart() {
     pop_x.splice(0, pop_x.length);
     pop_y.splice(0, pop_y.length);
 
-    oddEven = 1;
     chessCount = 0;
 
     initChessArr(); // 初始化棋盘矩阵
-    prompt("😎 已重新开局, 请下棋")
+    prompt("😎 已重新开局, 请下棋");
 }
 
 // 切换版本
@@ -409,7 +404,7 @@ function isWin(x, y, winColor) {
 
     // 判断是否五子连珠，获胜方是黑棋还是白棋
     if (horizontalCount==5 || verticalCount==5 || forwardObliqueCount==5 || negativeObliqueCount==5) {
-        prompt("👏👏👏 恭喜" + (winColor == 1 ? "黑棋" : "白棋") + "获胜!")
+        prompt("👏👏👏 恭喜" + (winColor == 1 ? "黑棋" : "白棋") + "获胜!");
         setTimeout(() => {
             restart();
         }, 3000);
